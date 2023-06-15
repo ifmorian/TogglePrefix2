@@ -1,0 +1,18 @@
+name: TogglePrefix
+version: '${project.version}'
+main: de.orian.toggleprefix.Main
+api-version: 1.19
+softdepend:
+  - LuckPerms
+  - spark
+commands:
+  tp_new:
+    description: Erstellt einen neuen Prefix.
+  tp_edit:
+    description: Bearbeitet einen bestehenden Prefix.
+  tp_delete:
+    description: Löscht einen Prefix.
+  tp_add:
+    description: Fügt einen Prefix zu einer Gruppe oder einem Spieler hinzu
+  toggleprefix:
+    description: Öffnet das Prefix-Menu

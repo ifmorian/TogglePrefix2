@@ -1,0 +1,23 @@
+database:
+  host: "localhost"
+  port: 3306
+  name: "toggleprefix2"
+  user: "root"
+  password: ""
+inventoryTitle: "§dPrefix-Auswahl"
+coloredMessages: true
+tablistUpdate: true
+tablistHeader:
+  - |-
+    &bTogglePrefix
+    &5Eine random Message
+  - |-
+    &eTogglePrefix
+    &cKeinen Plan, was hier stehen soll
+  - |-
+    &aTogglePrefix
+    &3Wirklich absolute keine Ahnung
+tablistFooter:
+  - '&bSpieler Online: &3%onlinePlayers%/%maxPlayers%'
+  - '&cTPS: &4%tps%'
+  - '&aCPU usage: &2%cpu%'
