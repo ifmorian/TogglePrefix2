@@ -37,18 +37,18 @@ public class NewPrefixCommand implements CommandExecutor {
             return false;
         }
 
-        if (Material.getMaterial(args[2].toUpperCase()) == null) {
+        if (Material.getMaterial(args[args.length - 2].toUpperCase()) == null) {
             s.sendError(sender, "Bitte gib einen richtigen Itemstack ein.\n" +
                     "§3hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html");
             return false;
         }
 
-        if (!args[3].matches("[1-9][0-9]{0,2}")) {
+        if (!args[args.length - 1].matches("[1-9][0-9]{0,2}")) {
             s.sendError(sender, "Bitte gib eine Priorität zwischen 1 und 999 ein.");
             return false;
         }
 
-        String chat = StringUtils.join(ArrayUtils.subarray(args, 1, args.length - 2));
+        String chat = StringUtils.join(ArrayUtils.subarray(args, 1, args.length - 2), " ");
         Prefix prefix = new Prefix(args[0], args[0], chat, chat, args[args.length - 2].toUpperCase(), StringUtils.leftPad(args[args.length - 1], 3, '0'));
 
         new BukkitRunnable() {

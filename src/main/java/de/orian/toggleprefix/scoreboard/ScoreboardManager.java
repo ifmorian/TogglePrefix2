@@ -29,6 +29,7 @@ public class ScoreboardManager {
     private final Scoreboard scoreboard;
 
     public ScoreboardManager(Scoreboard scoreboard) {
+        instance = this;
         this.scoreboard = scoreboard;
         this.spark = SparkProvider.get();
         updateTeams();
