@@ -16,3 +16,6 @@ commands:
     description: Fügt einen Prefix zu einer Gruppe oder einem Spieler hinzu
   toggleprefix:
     description: Öffnet das Prefix-Menu
+    aliases:
+      - prefix
+      - changeprefix

@@ -39,8 +39,14 @@ public class ScoreboardManager {
 
     public void updateTeams() {
         List<String> teams = mySQL.getTeams();
-        scoreboard.getTeams().forEach(Team::unregister);
+        disableTeams();
         teams.forEach(scoreboard::registerNewTeam);
+    }
+
+    public void disableTeams() {
+        for (Team team : scoreboard.getTeams()) {
+            team.unregister();
+        }
     }
 
     public void updatePlayer(Player player) {

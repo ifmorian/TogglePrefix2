@@ -49,6 +49,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         MySQL.getInstance().close();
+        ScoreboardManager.getInstance().disableTeams();
     }
 
     public static Main getPlugin() {

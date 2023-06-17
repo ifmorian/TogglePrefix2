@@ -23,7 +23,7 @@ public class ChatListener implements Listener {
         chat = Formatter.clearString(chat);
         chat = Formatter.colorTranslate(chat);
         try {
-            if (configManager.getColoredMessages()) event.setMessage(Formatter.colorTranslate(event.getMessage()));
+            if (player.hasPermission("toggleprefix.color") && configManager.getColoredMessages()) event.setMessage(Formatter.colorTranslate(event.getMessage()));
             event.setFormat(chat + " " + "%2$s");
         } catch (Exception e) {
             e.printStackTrace();

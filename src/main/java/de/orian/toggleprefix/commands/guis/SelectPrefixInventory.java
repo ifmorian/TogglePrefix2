@@ -4,7 +4,6 @@ import de.orian.toggleprefix.Main;
 import de.orian.toggleprefix.config.ConfigManager;
 import de.orian.toggleprefix.database.MySQL;
 import de.orian.toggleprefix.prefix.Prefix;
-import de.orian.toggleprefix.utils.Sender;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -17,7 +16,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class SelectPrefixInventory  {
 
