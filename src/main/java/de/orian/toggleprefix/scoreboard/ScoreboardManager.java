@@ -103,7 +103,7 @@ public class ScoreboardManager {
             }
             count1[0]++;
             count2[0]++;
-        }, 0L, 60L);
+        }, 0L, configManager.getTablistSpeed());
     }
 
     public static ScoreboardManager getInstance() {

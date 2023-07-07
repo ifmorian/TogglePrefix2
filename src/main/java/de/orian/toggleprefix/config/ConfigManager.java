@@ -11,7 +11,7 @@ public class ConfigManager {
 
     private static ConfigManager instance;
 
-    private Main plugin = Main.getPlugin();
+    private final Main plugin = Main.getPlugin();
 
     private static FileConfiguration cfg = Main.getPlugin().getConfig();
 
@@ -57,5 +57,9 @@ public class ConfigManager {
 
     public List<String> getTablistFooter() {
         return cfg.getStringList("tablistFooter");
+    }
+
+    public long getTablistSpeed() {
+        return cfg.getLong("tablistSpeed");
     }
 }

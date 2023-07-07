@@ -44,7 +44,7 @@ public class EditPrefixCommand implements CommandExecutor, TabCompleter {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (!mySQL.nameExists(args[1])) {
+                if (!mySQL.prefixExists(args[1])) {
                     s.sendError(sender, "Prefix existiert nicht.");
                     return;
                 }
@@ -72,10 +72,6 @@ public class EditPrefixCommand implements CommandExecutor, TabCompleter {
                         s.sendSuccesss(sender, "Icon von §9" + args[1] + " §aaktualisiert.");
                     }
                     case "priority" -> {
-                        if (mySQL.priorityExists(StringUtils.leftPad(args[2], 3, '0'))) {
-                            s.sendError(sender,"Priorität existiert bereits.");
-                            return;
-                        }
                         mySQL.updatePrefix(args[1], "priority", args[2]);
                         ScoreboardManager.getInstance().updateTeams();
                         s.sendSuccesss(sender, "Priorität von §9" + args[1] + " §aaktualisiert.");

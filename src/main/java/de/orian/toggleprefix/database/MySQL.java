@@ -105,7 +105,7 @@ public class MySQL {
                             "chat varchar(128)," +
                             "tablist varchar(128)," +
                             "item varchar(128) NOT NULL," +
-                            "priority varchar(3) NOT NULL UNIQUE" +
+                            "priority varchar(3) NOT NULL" +
                         ");";
             c = ds.getConnection();
             stmt = c.prepareStatement(sql);
@@ -188,7 +188,7 @@ public class MySQL {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-            String sql = "SELECT priority FROM " + prefixTable;
+            String sql = "SELECT DISTINCT priority FROM " + prefixTable;
             c = ds.getConnection();
             stmt = c.prepareStatement(sql);
             rs = stmt.executeQuery();
@@ -277,39 +277,7 @@ public class MySQL {
         }
     }
 
-    public Prefix getPrefix(String name) {
-        Connection c = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        Prefix prefix = null;
-        try {
-            String sql = "SELECT * FROM " + prefixTable + " WHERE name=?";
-            c = ds.getConnection();
-            stmt = c.prepareStatement(sql);
-
-            stmt.setString(1, name);
-
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                prefix = new Prefix(
-                    rs.getString("name"),
-                    rs.getString("display"),
-                    rs.getString("chat"),
-                    rs.getString("tablist"),
-                    rs.getString("item"),
-                    rs.getString("priority")
-                );
-            }
-        } catch (SQLException e) {
-            Bukkit.getLogger().warning(e.getMessage());
-        }
-        cleanup(c, stmt, rs);
-        return prefix;
-    }
-
-    public boolean prefixExists(Prefix prefix) {
+    public boolean prefixExists(String name) {
         Connection c = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -317,12 +285,11 @@ public class MySQL {
         boolean exists = false;
 
         try {
-            String sql = "SELECT * FROM " + prefixTable + " WHERE name=? OR priority=?";
+            String sql = "SELECT * FROM " + prefixTable + " WHERE name=?";
             c = ds.getConnection();
             stmt = c.prepareStatement(sql);
 
-            stmt.setString(1, prefix.name);
-            stmt.setString(2, prefix.priority);
+            stmt.setString(1, name);
 
             rs = stmt.executeQuery();
 
@@ -333,15 +300,6 @@ public class MySQL {
         cleanup(c, stmt, rs);
         return exists;
     }
-
-    public boolean nameExists(String name) {
-        return prefixExists(new Prefix(name, null, null, null, null, null));
-    }
-
-    public boolean priorityExists(String priority) {
-        return prefixExists(new Prefix(null, null, null, null, null, priority));
-    }
-
     public List<String> getPrefixes() {
         Connection c = null;
         PreparedStatement stmt = null;

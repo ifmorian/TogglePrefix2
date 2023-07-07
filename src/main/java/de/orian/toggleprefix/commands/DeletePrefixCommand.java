@@ -34,7 +34,7 @@ public class DeletePrefixCommand implements CommandExecutor, TabCompleter {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (!mySQL.nameExists(args[0])) {
+                if (!mySQL.prefixExists(args[0])) {
                     s.sendError(sender, "Prefix existiert nicht.");
                     return;
                 }

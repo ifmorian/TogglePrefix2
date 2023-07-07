@@ -49,7 +49,7 @@ public class AddPrefixCommand implements CommandExecutor, TabCompleter {
                             s.sendError(sender, "LuckPerms-Gruppe §9" + args[1] + " §cexistiert nicht.");
                             return;
                         }
-                        if (!mySQL.nameExists(args[2])) {
+                        if (!mySQL.prefixExists(args[2])) {
                             s.sendError(sender, "Prefix §9" + args[2] + " §cexistiert nicht.");
                             return;
                         }
@@ -62,7 +62,7 @@ public class AddPrefixCommand implements CommandExecutor, TabCompleter {
                             s.sendError(sender, "Spieler§9" + args[1] + " §cexistiert nicht.");
                             return;
                         }
-                        if (!mySQL.nameExists(args[2])) {
+                        if (!mySQL.prefixExists(args[2])) {
                             s.sendError(sender, "Prefix §9" + args[2] + " §cexistiert nicht.");
                             return;
                         }

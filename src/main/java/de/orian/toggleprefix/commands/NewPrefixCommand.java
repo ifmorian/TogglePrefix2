@@ -54,8 +54,8 @@ public class NewPrefixCommand implements CommandExecutor {
 
             @Override
             public void run() {
-                if (mySQL.prefixExists(prefix)) {
-                    s.sendError(sender,"Name oder Priorität existieren bereits.");
+                if (mySQL.prefixExists(args[0])) {
+                    s.sendError(sender,"Name existiert bereits.");
                     return;
                 }
 
