@@ -1,8 +1,10 @@
 package de.orian.toggleprefix.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.entity.Player;
 
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class Formatter {
@@ -41,6 +43,14 @@ public class Formatter {
     }
 
     public static String colorTranslate(String s) {
+        String[] a = s.split("&#");
+        StringBuilder sBuilder = new StringBuilder(a[0]);
+        for (int i = 1; i < a.length; i++) {
+            String cc = "§x" + Integer.toHexString(Integer.parseInt(a[i].substring(0, 6), 16));
+            Sender.getInstance().console(cc);
+            sBuilder.append(cc).append(a[i].substring(6));
+        }
+        s = sBuilder.toString();
         return s.replace("&", "§");
     }
 
