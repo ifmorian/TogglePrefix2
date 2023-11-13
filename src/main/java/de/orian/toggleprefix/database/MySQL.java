@@ -121,7 +121,8 @@ public class MySQL {
         try {
             String sql = "CREATE TABLE IF NOT EXISTS " + playerTable + "(" +
                             "id BINARY(16) PRIMARY KEY NOT NULL," +
-                            "prefix varchar(64) NOT NULL" +
+                            "prefix varchar(64) NOT NULL," +
+                            "display_name varchar(1024)" +
                         ");";
             c = ds.getConnection();
             stmt = c.prepareStatement(sql);
@@ -375,12 +376,13 @@ public class MySQL {
         PreparedStatement stmt = null;
 
         try {
-            String sql = "INSERT IGNORE " + playerTable + " VALUES(?,?)";
+            String sql = "INSERT IGNORE " + playerTable + " VALUES(?,?,?)";
             c = ds.getConnection();
             stmt = c.prepareStatement(sql);
 
             stmt.setBytes(1, Formatter.UUIDtoBytes(player.getUniqueId()));
             stmt.setString(2, "default");
+            stmt.setString(3, null);
 
             stmt.execute();
 
@@ -511,6 +513,58 @@ public class MySQL {
         }
         cleanup(c, stmt, rs);
         return prefixes;
+    }
+
+    public boolean setPlayerDisplayName(Player player, String displayName) {
+        Connection c = null;
+        PreparedStatement stmt = null;
+
+        try {
+            String sql = "UPDATE " + playerTable + " SET display_name=? WHERE id=?";
+
+            c = ds.getConnection();
+            stmt = c.prepareStatement(sql);
+
+            stmt.setString(1, displayName);
+            stmt.setBytes(2, Formatter.UUIDtoBytes(player.getUniqueId()));
+
+            stmt.execute();
+
+            cleanup(c, stmt, null);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            cleanup(c, stmt, null);
+            return false;
+        }
+    }
+
+    public String getPlayerDisplayName(Player player) {
+        Connection c = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        String name = null;
+
+        try {
+            String sql = "SELECT display_name FROM " + playerTable + " WHERE id=?";
+
+            c = ds.getConnection();
+            stmt = c.prepareStatement(sql);
+
+            stmt.setBytes(1, Formatter.UUIDtoBytes(player.getUniqueId()));
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                name = rs.getString("display_name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        cleanup(c, stmt, rs);
+
+        return name;
     }
 
 }

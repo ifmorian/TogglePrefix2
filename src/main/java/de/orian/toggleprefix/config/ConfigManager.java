@@ -62,4 +62,8 @@ public class ConfigManager {
     public long getTablistSpeed() {
         return cfg.getLong("tablistSpeed");
     }
+
+    public boolean getTablistCustomName() {
+        return cfg.getBoolean("tablistCustomName");
+    }
 }

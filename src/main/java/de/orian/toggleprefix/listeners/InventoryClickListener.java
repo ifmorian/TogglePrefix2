@@ -2,6 +2,7 @@ package de.orian.toggleprefix.listeners;
 
 import de.orian.toggleprefix.Main;
 import de.orian.toggleprefix.commands.guis.SelectPrefixInventory;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -22,6 +23,7 @@ public class InventoryClickListener implements Listener {
         if (slot < 0) return;
         if (slot == 4 * 9) inv.switchPage(-1);
         else if (slot == 4 * 9 + 8) inv.switchPage(1);
+        else if (slot == 4 * 9 + 4) inv.switchName((Player) event.getWhoClicked());
         ItemStack clicked = inv.getInventory().getItem(slot);
         if (clicked == null) return;
         PersistentDataContainer container = clicked.getItemMeta().getPersistentDataContainer();

@@ -1,9 +1,11 @@
 package de.orian.toggleprefix.listeners;
 
+import de.orian.toggleprefix.commands.guis.SelectPrefixInventory;
 import de.orian.toggleprefix.config.ConfigManager;
 import de.orian.toggleprefix.database.MySQL;
 import de.orian.toggleprefix.prefix.Prefix;
 import de.orian.toggleprefix.utils.Formatter;
+import de.orian.toggleprefix.utils.Sender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,9 +19,24 @@ public class ChatListener implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
+
+        if (SelectPrefixInventory.currentlyNameChanging.contains(player.getUniqueId())) {
+            if (mySQL.setPlayerDisplayName(player, event.getMessage())) {
+                Sender.getInstance().sendSuccesss(player, "Dein Name wurde geändert!");
+                SelectPrefixInventory.currentlyNameChanging.remove(player.getUniqueId());
+            } else {
+                Sender.getInstance().sendError(player, "Etwas ist schief gelaufen.");
+            }
+
+            event.setCancelled(true);
+            return;
+        }
+
         Prefix prefix = mySQL.getPlayerPrefix(player);
         if (prefix.chat == null) return;
-        String chat = Formatter.setName(prefix.chat, player.getDisplayName());
+
+        String displayName = mySQL.getPlayerDisplayName(player);
+        String chat = Formatter.setName(prefix.chat, displayName != null ? displayName : player.getDisplayName());
         chat = Formatter.clearString(chat);
         chat = Formatter.colorTranslate(chat);
         try {

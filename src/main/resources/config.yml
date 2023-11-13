@@ -5,6 +5,7 @@ database:
   user: "root"
   password: ""
 inventoryTitle: "§dPrefix-Auswahl"
+tablistCustomName: true
 coloredMessages: true
 tablistUpdate: true
 tablistSpeed: 100

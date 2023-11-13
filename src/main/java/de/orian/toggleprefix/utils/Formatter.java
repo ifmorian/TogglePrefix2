@@ -1,11 +1,14 @@
 package de.orian.toggleprefix.utils;
 
-import org.apache.commons.lang3.StringUtils;
+import de.orian.toggleprefix.config.ConfigManager;
+import de.orian.toggleprefix.database.MySQL;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Formatter {
 
@@ -43,23 +46,32 @@ public class Formatter {
     }
 
     public static String colorTranslate(String s) {
-        String[] a = s.split("&#");
-        StringBuilder sBuilder = new StringBuilder(a[0]);
-        for (int i = 1; i < a.length; i++) {
-            String cc = "§x" + Integer.toHexString(Integer.parseInt(a[i].substring(0, 6), 16));
-            Sender.getInstance().console(cc);
-            sBuilder.append(cc).append(a[i].substring(6));
+        StringBuilder stringBuilder = new StringBuilder();
+        String[] stripped = s.split("&#([0-9]|[a-f]|[A-F]){6}");
+        int index = 0;
+        if (!s.matches("^&#([0-9]|[a-f]|[A-F]){6}")) {
+            stringBuilder.append(stripped[0]);
+            index = 1;
         }
-        s = sBuilder.toString();
+        Matcher m = Pattern.compile("&#([0-9]|[a-f]|[A-F]){6}").matcher(s);
+        while (m.find()) {
+            stringBuilder.append(ChatColor.of(m.group().substring(1)));
+            stringBuilder.append(stripped[index]);
+            index++;
+        }
+        s = stringBuilder.toString();
         return s.replace("&", "§");
     }
+
 
     public static String setName(String s, String name) {
         return s.replace("%name%", name);
     }
 
     public static String tablistFormat(String s, Player player) {
-        return colorTranslate(clearString(setName(s, player.getDisplayName()).replace("%ping%", String.valueOf(player.getPing()))));
+        String name = null;
+        if (ConfigManager.getInstance().getTablistCustomName()) name = MySQL.getInstance().getPlayerDisplayName(player);
+        return colorTranslate(clearString(setName(s, name == null ? player.getDisplayName() : name).replace("%ping%", String.valueOf(player.getPing()))));
     }
 
 }

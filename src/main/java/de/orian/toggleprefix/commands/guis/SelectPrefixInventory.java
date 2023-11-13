@@ -4,6 +4,7 @@ import de.orian.toggleprefix.Main;
 import de.orian.toggleprefix.config.ConfigManager;
 import de.orian.toggleprefix.database.MySQL;
 import de.orian.toggleprefix.prefix.Prefix;
+import de.orian.toggleprefix.utils.Sender;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -35,9 +36,11 @@ public class SelectPrefixInventory  {
     private Prefix currentPrefix;
     private final List<Prefix> prefixes = new ArrayList<>();
 
-    private Inventory inventory;
+    private final Inventory inventory;
 
     public static final HashMap<UUID, SelectPrefixInventory> openInventories = new HashMap<>();
+
+    public static final List<UUID> currentlyNameChanging = new ArrayList<>();
 
     public SelectPrefixInventory(Player player) {
         this.player = player;
@@ -75,6 +78,22 @@ public class SelectPrefixInventory  {
         fill();
     }
 
+    public void switchName(Player player) {
+        if (currentlyNameChanging.contains(player.getUniqueId())) return;
+        Sender.getInstance().sendSuccesss(player, "Gib deinen neuen Namen ein... §8(1 min)");
+        currentlyNameChanging.add(player.getUniqueId());
+        player.getOpenInventory().close();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (currentlyNameChanging.contains(player.getUniqueId())) {
+                    currentlyNameChanging.remove(player.getUniqueId());
+                    Sender.getInstance().sendError(player, "Zeit abgelaufen.");
+                }
+            }
+        }.runTaskLater(plugin, 1200);
+    }
+
     public void updatePrefix(String prefixName) {
         setLoading(true);
         if (prefixName != null) mySQL.setPlayerPrefix(player, prefixName);
@@ -104,6 +123,7 @@ public class SelectPrefixInventory  {
         }
         this.inventory.setItem(4 * 9, createNamedItem(Material.ARROW, "Vorherige Seite", false));
         this.inventory.setItem(4 * 9 + 8, createNamedItem(Material.ARROW, "Nächste Seite", false));
+        this.inventory.setItem(4 * 9 + 4, createNamedItem(Material.WRITABLE_BOOK, "Namen ändern", false));
     }
 
     private ItemStack createNamedItem(Material material, String name, boolean enchanted, List<String> lore) {
