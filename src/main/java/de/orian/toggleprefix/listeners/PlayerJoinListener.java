@@ -2,6 +2,8 @@ package de.orian.toggleprefix.listeners;
 
 import de.orian.toggleprefix.Main;
 import de.orian.toggleprefix.database.MySQL;
+import de.orian.toggleprefix.prefix.Prefix;
+import de.orian.toggleprefix.utils.Formatter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,6 +22,7 @@ public class PlayerJoinListener implements Listener {
             @Override
             public void run() {
                 mySQL.addPlayer(player);
+                Prefix.updatePlayerDisplayName(player);
             }
         }.runTaskAsynchronously(plugin);
     }

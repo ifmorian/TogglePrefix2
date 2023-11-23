@@ -36,7 +36,7 @@ public class ChatListener implements Listener {
         if (prefix.chat == null) return;
 
         String displayName = mySQL.getPlayerDisplayName(player);
-        String chat = Formatter.setName(prefix.chat, displayName != null ? displayName : player.getDisplayName());
+        String chat = Formatter.setName(prefix.chat, displayName != null ? displayName : player.getName());
         chat = Formatter.clearString(chat);
         chat = Formatter.colorTranslate(chat);
         try {

@@ -2,12 +2,16 @@ package de.orian.toggleprefix.prefix;
 
 import de.orian.toggleprefix.Main;
 import de.orian.toggleprefix.database.MySQL;
+import de.orian.toggleprefix.utils.Formatter;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Prefix {
+
+    private static final MySQL mySQL = MySQL.getInstance();
 
     public String name;
     public String display;
@@ -34,6 +38,19 @@ public class Prefix {
                 prefixes = MySQL.getInstance().getPrefixes();
             }
         }.runTaskAsynchronously(Main.getPlugin());
+    }
+
+    public static void updatePlayerDisplayName(Player player) {
+        String displayName = mySQL.getPlayerDisplayName(player);
+        Prefix prefix = mySQL.getPlayerPrefix(player);
+
+        if (prefix == null) return;
+
+        String display = prefix.tablist;
+        display = Formatter.setName(display, displayName == null ? player.getName() : displayName);
+        display = Formatter.clearString(display);
+        display = Formatter.colorTranslate(display);
+        player.setDisplayName(display);
     }
 
 }

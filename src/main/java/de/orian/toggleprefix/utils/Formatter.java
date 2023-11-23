@@ -71,7 +71,7 @@ public class Formatter {
     public static String tablistFormat(String s, Player player) {
         String name = null;
         if (ConfigManager.getInstance().getTablistCustomName()) name = MySQL.getInstance().getPlayerDisplayName(player);
-        return colorTranslate(clearString(setName(s, name == null ? player.getDisplayName() : name).replace("%ping%", String.valueOf(player.getPing()))));
+        return colorTranslate(clearString(setName(s, name == null ? player.getName() : name).replace("%ping%", String.valueOf(player.getPing()))));
     }
 
 }

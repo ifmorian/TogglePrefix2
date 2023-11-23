@@ -97,6 +97,9 @@ public class SelectPrefixInventory  {
     public void updatePrefix(String prefixName) {
         setLoading(true);
         if (prefixName != null) mySQL.setPlayerPrefix(player, prefixName);
+
+        Prefix.updatePlayerDisplayName(player);
+
         SelectPrefixInventory.this.currentPrefix = mySQL.getPlayerPrefix(player);
         player.getEffectivePermissions().forEach(perm -> {
             String[] p = perm.getPermission().split("\\.");
